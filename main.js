@@ -5,25 +5,33 @@ const options = ["rock", "paper", "scissors"];
 let playerScore = 1;
 let computerScore = 1;
 const buttons = document.querySelectorAll(".element-button");
+const display = document.querySelector(".display");
+const delayedDisplay = document.querySelector(".delayedDisplay");
+
+function removal() {
+    display.remove();
+    delayedDisplay.style.color = "green";
+    delayedDisplay.textContent = "You won five rounds: You win!!! Refresh to play again";
+}
+
+function removal2() {
+    display.remove();
+    delayedDisplay.style.color = "red";
+    delayedDisplay.textContent = "The robot won five rounds: You lost!!! Refresh to try again";
+}
+
 
 // Add an event listener to each button that calls the playRound function
 // with the playerSelection being the value of the button that is clicked
-// Create element to display after player or computer reaches five wins
+// Make the display box contain a message after player or computer reaches five wins
+
 buttons.forEach((button) => {
     button.addEventListener("click", () => {
 playRound(button.value);
 if (playerScore == 6) {
-    const winner = document.createElement("div");
-    winner.classList.add("winner");
-    winner.style.color = "green";
-    winner.textContent = "Player won five rounds: Player wins!!!";
-    container.appendChild(winner);
+    setInterval(removal, 800);
 } else if (computerScore == 6) {
-    const winner = document.createElement("div");
-    winner.classList.add("winner");
-    winner.style.color = "red";
-    winner.textContent = "The robot won five rounds: You lost!!!";
-    container.appendChild(winner);
+    setInterval(removal2, 800);
 } 
 });
 });
@@ -34,40 +42,25 @@ function computerPlay() {
 } 
 
 // Create function to play one round with the playerSelection parameter
-// Make it return a string that declares the winner
-// Turn the console.log statements into DOM methods
+// Make it return a string in the display box that declares the winner
 function playRound(playerSelection) { 
     const computerSelection = computerPlay();
     // Player wins
     if (playerSelection === "rock" && computerSelection === "scissors" ||
     playerSelection === "paper" && computerSelection === "rock" ||
     playerSelection === "scissors" && computerSelection === "paper") {
-        const playerWin = document.createElement('div');
-        playerWin.classList.add("playerWin");
-        playerWin.textContent = `${playerSelection} vs ${computerSelection} = Player wins: ${playerScore}`;
-        container.appendChild(playerWin);
+        display.textContent = `${playerSelection} beats ${computerSelection}! Your score = ${playerScore}`;
         playerScore++
     // Computer wins
     } else if (playerSelection === "rock" && computerSelection === "paper" ||
     playerSelection === "paper" && computerSelection === "scissors" ||
     playerSelection === "scissors" && computerSelection === "rock") {
-        const computerWin = document.createElement('div');
-        computerWin.classList.add("computerWin");
-        computerWin.textContent = `${playerSelection} vs ${computerSelection} = Computer wins: ${computerScore}`;
-        container.appendChild(computerWin);
+        display.textContent = `${playerSelection} loses to ${computerSelection}! Computer score = ${computerScore}`;
         computerScore++
         // Tie game
     } else {
-        const tie = document.createElement('div');
-        tie.classList.add("tie");
-        tie.textContent = `${playerSelection} vs ${computerSelection} = Tie!`;
-        container.appendChild(tie);
+        display.textContent = `${playerSelection} vs ${computerSelection} = Tie!`;
     }
 } 
-
- 
-
-
-
 
 
